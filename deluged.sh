@@ -9,4 +9,6 @@ if ! grep -q deluge /config/auth 2> /dev/null; then
     echo "deluge:${PW}:10" >> /config/auth
 fi
 
-/usr/bin/deluged $@
+IP=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
+
+/usr/bin/deluged -u ${IP} -i ${IP} $@
