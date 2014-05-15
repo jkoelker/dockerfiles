@@ -13,7 +13,7 @@ Run the container:
 docker run -d --volumes-from dhcpd-data --name dhcpd jkoelker/isc-dhcpd
 ```
 
-Use a temporary volume to edit the ``/data/dhcpd.conf``:
+Use a temporary container to edit the ``/data/dhcpd.conf``:
 
 ```bash
 docker run -i -t --volume-from dhcpd-data budybox /bin/sh -l
