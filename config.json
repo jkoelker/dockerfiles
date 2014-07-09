@@ -1,0 +1,10 @@
+{"rpcSocket": "/socket/rtorrent.socket",
+ "rootFileSystem": "/",
+ "torrentDir": "/",
+ "downloadDir": "/",
+ "username": "pitorrent",
+ "password": "pitorrent",
+ "feeds": [],
+ "queries": [],
+ "rssInterval": 30}
+
