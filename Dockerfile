@@ -7,7 +7,10 @@ RUN DEBIAN_FRONTEND=noninteractive && \
 ADD btsync.sh /btsync.sh
 ADD sync.conf /default_sync.conf
 
-RUN wget -O - http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable | tar xzf - -C / btsync
+ENV BTSYNC_URL http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable
+ENV BTSYNC_AUTOUPDATE true
+
+RUN wget -O - ${BTSYNC_URL} | tar xzf - -C / btsync
 
 EXPOSE 8889
 EXPOSE 8889/udp
