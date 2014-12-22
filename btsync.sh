@@ -6,7 +6,7 @@ if [ ! -f /sync/sync.conf ]; then
 fi
 
 if [ "$BTSYNC_AUTOUPDATE" == true ]; then
-    wget --O - ${BTSYNC_URL} | tar xzf - --overwrite -C / btsync
+    wget -O - ${BTSYNC_URL} | tar xzf - --overwrite -C / btsync
 fi
 
 exec /btsync $@
