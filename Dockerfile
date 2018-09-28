@@ -1,8 +1,6 @@
-FROM debian:jessie
+FROM docker.io/alpine:3.8
 
-RUN DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    apt-get install -y rtorrent
+RUN apk add --no-cache bash rtorrent tini
 
-ENTRYPOINT ["/usr/bin/rtorrent"]
-CMD ["-n", "-o", "try_import=/config/rtorrent.rc"]
+ENTRYPOINT ["/sbin/tini", "--", "rtorrent"]
+CMD ["-n", "-o", "system.daemon.set=true", "-o", "try_import=/config/rtorrent.rc"]
