@@ -6,7 +6,11 @@ import os
 import sys
 
 import guessit
-from guessit.patterns import extension as ext_patterns
+
+video_exts = ['3g2', '3gp', '3gp2', 'asf', 'avi', 'divx', 'flv', 'm4v', 'mk2',
+              'mka', 'mkv', 'mov', 'mp4', 'mp4a', 'mpeg', 'mpg', 'ogg', 'ogm',
+              'ogv', 'qt', 'ra', 'ram', 'rm', 'ts', 'wav', 'webm', 'wma',
+              'wmv', 'iso', 'vob', 'm2ts']
 
 
 def handle(dirpath, filename, dstpath):
@@ -16,22 +20,23 @@ def handle(dirpath, filename, dstpath):
     path = os.path.join(dirpath, filename)
     ext = os.path.splitext(path)[-1].lstrip('.')
 
-    if ext not in ext_patterns.video_exts + ['m2ts']:
+    if ext not in video_exts:
         return
 
     print('Processing %s' % path)
-    guess = guessit.guess_movie_info(path, info=['filename', 'video'])
-    guess['title'] = guess['title'].title()
+    guess = guessit.guessit(path)
 
     name = '%s (%s)' % (guess['title'], guess['year'])
 
-    if 'format' not in guess and 'remux' in filename.lower():
-        guess['format'] = 'bluray'
+    if 'source' not in guess and 'remux' in filename.lower():
+        guess['source'] = 'bluray'
 
-    if 'format' in guess:
-        name = '%s %s' % (name, guess['format'].lower())
+    if 'source' in guess:
+        guess['source'] = guess['source'].lower().replace('-', '')
 
-    name = name.encode('utf-8')
+    if 'source' in guess:
+        name = '%s %s' % (name, guess['source'].lower())
+
     dst = os.path.join(dstpath, name)
     os.makedirs(dst)
     os.link(path, os.path.join(dst, '.'.join([name, ext])))
