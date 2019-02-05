@@ -6,6 +6,8 @@ services:
     tty: true
     logging:
       driver: none
+    environment:
+      WEECHAT_HOME: /weechat
     volumes:
       - type: bind
         source: /mnt/disks/gce-containers-mounts/gce-persistent-disks/weechat
