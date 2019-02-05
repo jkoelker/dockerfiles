@@ -9,9 +9,7 @@ services:
     environment:
       WEECHAT_HOME: /weechat
     volumes:
-      - type: bind
-        source: /mnt/disks/gce-containers-mounts/gce-persistent-disks/weechat
-        target: /weechat
+      - /mnt/disks/gce-containers-mounts/gce-persistent-disks/weechat:/weechat
   caddy:
     build:
       context: ./caddy
