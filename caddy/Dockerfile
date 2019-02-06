@@ -13,10 +13,12 @@ RUN VERSION=${version} \
 
 FROM alpine:3.8
 
-# Caddyfile location
 ENV RELAY_FQDN=''
 ENV ACME_EMAIL=''
 ENV ACME_AGREE=false
+
+# Telemetry Stats
+ENV ENABLE_TELEMETRY="false"
 
 RUN apk add --no-cache ca-certificates
 
