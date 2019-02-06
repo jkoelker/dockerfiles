@@ -2,6 +2,13 @@ version: '3'
 services:
   weechat:
     image: jkaberg/weechat
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+       apk add --no-cache py2-pip
+       pip install websocket-client
+       /run.sh
     stdin_open: true
     tty: true
     logging:
