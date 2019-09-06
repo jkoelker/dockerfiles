@@ -60,22 +60,6 @@ RUN BUILD_DEPS="\
     && make -C /tmp/src/build -j "$(nproc)" \
     && make -C /tmp/src/build install \
     && rm -rf /tmp/src \
-    && wget -O /tmp/rustup-init https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init \
-	&& RUSTUP_HOME=$(mktemp -d) \
-	&& CARGO_HOME=$(mktemp -d) \
-	&& PATH="$CARGO_HOME/bin:$PATH" \
-	&& export RUSTUP_HOME \
-	&& export CARGO_HOME \
-	&& export PATH \
-    && chmod +x /tmp/rustup-init \
-    && /tmp/rustup-init -y --no-modify-path \
-    && rm -rf /tmp/rustup-init \
-	&& mkdir /tmp/src \
-	&& wget -O /tmp/discord.tar.gz https://github.com/terminal-discord/weechat-discord/archive/master.tar.gz \
-    && tar -xf /tmp/discord.tar.gz -C /tmp/src --strip-components 1 \
-    && cargo build --manifest-path /tmp/src/Cargo.toml --release \
-    && cp /tmp/src/target/release/libweecord.so /usr/local/lib/weechat/plugins \
-    && rm -rf /tmp/src "$RUSTUP_HOME" "$CARGO_HOME" \
     && apt-get purge -y --auto-remove $BUILD_DEPS \
     && apt-get install -y --no-install-recommends \
         libgcrypt20 \
