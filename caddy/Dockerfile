@@ -1,33 +1,25 @@
-FROM abiosoft/caddy:builder as builder
+#
+FROM golang:1.13-alpine
 
-ARG version="1.0.3"
-ARG plugins="namecheap"
+ARG version="1.0.4"
+ARG plugins="github.com/caddyserver/dnsproviders/namecheap"
+ARG telemetry="false"
 
-# process wrapper
-RUN go get -v github.com/abiosoft/parent
-RUN go get -v golang.org/x/crypto/ed25519
+WORKDIR /build
 
-RUN VERSION=${version} \
-    PLUGINS=${plugins} \
-    ENABLE_TELEMETRY=false \
-    /bin/sh /usr/bin/builder.sh
+COPY plugger.go ./
 
-FROM alpine:3.8
+# build & test
+RUN apk add --no-cache git ca-certificates \
+    && printf "module caddy\\nrequire github.com/caddyserver/caddy v%s" "${version}" > go.mod \
+    && go run plugger.go -plugins="${plugins}" -telemetry="${telemetry}" \
+    && CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build \
+    && ./caddy -version \
+	&& mv ./caddy /usr/bin
 
 ENV RELAY_FQDN=''
 ENV ACME_EMAIL=''
 ENV ACME_AGREE=false
-
-# Telemetry Stats
-ENV ENABLE_TELEMETRY="false"
-
-RUN apk add --no-cache ca-certificates
-
-# install caddy
-COPY --from=builder /install/caddy /usr/bin/caddy
-
-# install process wrapper
-COPY --from=builder /go/bin/parent /bin/parent
 
 COPY start.sh /
 RUN chmod +x /start.sh

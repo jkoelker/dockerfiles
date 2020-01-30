@@ -10,7 +10,7 @@ echo "        dns namecheap" >> /etc/Caddyfile
 echo "    }" >> /etc/Caddyfile
 echo "}" >> /etc/Caddyfile
 
-exec /bin/parent /usr/bin/caddy \
+exec /usr/bin/caddy \
     --conf /etc/Caddyfile \
     --email "${ACME_EMAIL}" \
     --log stdout \
