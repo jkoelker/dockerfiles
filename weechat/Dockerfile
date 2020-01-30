@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ENV TERM=screen-256color
 ENV LANG=C.UTF-8
@@ -29,13 +29,14 @@ RUN BUILD_DEPS="\
         cpp \
         devscripts \
         debhelper \
+        libaspell-dev \
         libgcrypt20-dev \
         libcurl4-gnutls-dev \
         libgnutls28-dev \
         libncurses-dev \
         libperl-dev \
         pkg-config \
-        python-dev \
+        python3-dev \
         rake \
         ruby \
         ruby-dev \
@@ -44,6 +45,8 @@ RUN BUILD_DEPS="\
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         $BUILD_DEPS \
+        aspell \
+        aspell-en \
         ca-certificates \
         dirmngr \
         gpg \
@@ -56,7 +59,7 @@ RUN BUILD_DEPS="\
     && mkdir -p /tmp/src/build \
     && tar -xf /tmp/weechat.tar.xz -C /tmp/src --strip-components 1 \
     && rm /tmp/weechat.tar.xz \
-    && cmake -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -S /tmp/src -B /tmp/src/build \
+    && cmake -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_TCL=OFF -DENABLE_LUA=OFF -S /tmp/src -B /tmp/src/build \
     && make -C /tmp/src/build -j "$(nproc)" \
     && make -C /tmp/src/build install \
     && rm -rf /tmp/src \
@@ -67,16 +70,16 @@ RUN BUILD_DEPS="\
         libdatetime-perl \
         libglib2.0-0 \
         libruby \
-        libpython2.7 \
+        libpython3.7 \
         libtcl8.6 \
         libgnutls30 \
         libncurses6 \
         libwww-perl \
         perl \
-        python-setuptools \
-        python-pip \
+        python3-setuptools \
+        python3-pip \
         zlib1g \
-    && pip install websocket-client
+    && pip3 install websocket-client
 
 VOLUME /weechat
 WORKDIR /weechat
