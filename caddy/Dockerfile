@@ -1,6 +1,6 @@
 FROM abiosoft/caddy:builder as builder
 
-ARG version="0.11.2"
+ARG version="1.0.3"
 ARG plugins="namecheap"
 
 # process wrapper
