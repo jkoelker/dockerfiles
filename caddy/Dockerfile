@@ -5,6 +5,7 @@ ARG plugins="namecheap"
 
 # process wrapper
 RUN go get -v github.com/abiosoft/parent
+RUN go get -v golang.org/x/crypto/ed25519
 
 RUN VERSION=${version} \
     PLUGINS=${plugins} \
