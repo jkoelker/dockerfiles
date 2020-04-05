@@ -70,7 +70,7 @@ RUN BUILD_DEPS="\
         libdatetime-perl \
         libglib2.0-0 \
         libruby \
-        libpython3.7 \
+        libpython3.8 \
         libtcl8.6 \
         libgnutls30 \
         libncurses6 \
